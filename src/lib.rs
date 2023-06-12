@@ -11,16 +11,6 @@ use wasm_bindgen::prelude::*;
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[wasm_bindgen]
-extern "C" {
-    fn alert(s: &str);
-}
-
-#[wasm_bindgen]
-pub fn greet(s: &str) {
-    alert(&format!("Hello, {}!", &s));
-}
-
-#[wasm_bindgen]
 #[repr(u8)]
 #[derive(Clone, Debug, Copy, PartialEq, Eq)]
 pub enum Cell {
@@ -59,6 +49,19 @@ impl Universe {
     pub fn render(&self) -> String {
         self.to_string()
     }
+
+    pub fn width(&self) -> usize {
+        self.width
+    }
+
+    pub fn height(&self) -> usize {
+        self.height
+    }
+
+    pub fn cells(&self) -> *const Cell {
+        self.cells.as_ptr()
+    }
+
     fn index(&self, row: usize, column: usize) -> usize {
         (row * self.width) + column
     }
