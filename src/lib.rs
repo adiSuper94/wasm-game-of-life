@@ -28,6 +28,7 @@ pub struct Universe {
 #[wasm_bindgen]
 impl Universe {
     pub fn new() -> Self {
+        utils::set_panic_hook();
         let width = 64;
         let height = 64;
         let cells = (0..(width * height))
@@ -39,6 +40,7 @@ impl Universe {
                 }
             })
             .collect();
+        log!("batman");
         Self {
             width,
             height,
