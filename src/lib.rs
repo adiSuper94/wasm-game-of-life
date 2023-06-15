@@ -124,3 +124,32 @@ impl fmt::Display for Universe {
         Ok(())
     }
 }
+
+#[wasm_bindgen]
+impl Universe {
+    pub fn set_width(&mut self, width: usize) {
+        self.width = width;
+        self.cells = (0..width * self.height).map(|_i| Cell::Dead).collect();
+    }
+
+    pub fn set_height(&mut self, height: usize) {
+        self.height = height;
+        self.cells = (0..self.width * height).map(|_i| Cell::Dead).collect();
+    }
+}
+
+impl Universe {
+    /// Get the dead and alive values of the entire universe.
+    pub fn get_cells(&self) -> &[Cell] {
+        &self.cells
+    }
+
+    /// Set cells to be alive in a universe by passing the row and column
+    /// of each cell as an array.
+    pub fn set_cells(&mut self, cells: &[(usize, usize)]) {
+        for (row, col) in cells.iter().cloned() {
+            let idx = self.index(row, col);
+            self.cells[idx] = Cell::Alive;
+        }
+    }
+}
